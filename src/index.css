@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-cream: #FDFBF7;
+    --color-sand: #F7F3EB;
+    --color-linen: #EFE9DE;
+    --color-warm-caramel: #C4975C;
+    --color-warm-caramel-hover: #B08247;
+    --color-terracotta: #D48C70;
+    --color-blush-soft: #F9EFEB;
+    --color-hazelnut: #5C4D44;
+    --color-espresso: #2D2420;
+    --color-charcoal-soft: #231F1D;
+  }
+
+  body {
+    background-color: #FAF7F2;
+    color: #2D2420;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+.font-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+}
+
+/* Cozy warm gradients & soft shadows */
+.warm-caramel-bg {
+  background-color: #C4975C;
+}
+
+.warm-caramel-hover:hover {
+  background-color: #B08247;
+}
+
+.cozy-card-shadow {
+  box-shadow: 0 4px 20px -2px rgba(92, 77, 68, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.cozy-card-hover {
+  transition: all 0.25s ease;
+}
+.cozy-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(92, 77, 68, 0.09), 0 4px 8px -2px rgba(0, 0, 0, 0.03);
+}
+
+/* Subtle warm linen texture */
+.cozy-bg-pattern {
+  background-color: #FAF7F2;
+  background-image: radial-gradient(#D48C70 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+  background-opacity: 0.12;
+}
+

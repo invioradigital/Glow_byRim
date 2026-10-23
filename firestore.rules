@@ -1,0 +1,120 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isVerifiedUser() && (
+        request.auth.token.email == 'inviora.digital@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidSettings(data) {
+      return data.salonName is string && data.salonName.size() <= 100 &&
+             data.phone is string && data.phone.size() <= 50 &&
+             data.whatsapp is string && data.whatsapp.size() <= 50 &&
+             data.address is string && data.address.size() <= 200;
+    }
+
+    function isValidCategory(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 50;
+    }
+
+    function isValidService(data) {
+      return data.categoryId is string && data.categoryId.size() <= 50 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.price is string && data.price.size() <= 100;
+    }
+
+    function isValidGallery(data) {
+      return data.title is string && data.title.size() <= 150 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.imageUrl is string && data.imageUrl.size() <= 1000000;
+    }
+
+    function isValidReview(data) {
+      return data.authorName is string && data.authorName.size() > 0 && data.authorName.size() <= 100 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             data.text is string && data.text.size() > 0 && data.text.size() <= 1000;
+    }
+
+    function isValidReservation(data) {
+      return data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 120 &&
+             data.phoneNumber is string && data.phoneNumber.size() > 0 && data.phoneNumber.size() <= 50 &&
+             data.service is string && data.service.size() > 0 && data.service.size() <= 150 &&
+             data.preferredDate is string && data.preferredDate.size() > 0 && data.preferredDate.size() <= 50 &&
+             data.preferredTime is string && data.preferredTime.size() > 0 && data.preferredTime.size() <= 50 &&
+             data.status is string && (data.status == 'pending' || data.status == 'confirmed' || data.status == 'completed' || data.status == 'cancelled');
+    }
+
+    // Settings Collection: Public read, Admin write
+    match /settings/{settingId} {
+      allow read: if isValidId(settingId);
+      allow create, update: if isAdmin() && isValidId(settingId) && isValidSettings(request.resource.data);
+      allow delete: if isAdmin() && isValidId(settingId);
+    }
+
+    // Categories Collection: Public read, Admin write
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(categoryId) && isValidCategory(request.resource.data);
+      allow delete: if isAdmin() && isValidId(categoryId);
+    }
+
+    // Services Collection: Public read, Admin write
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(serviceId) && isValidService(request.resource.data);
+      allow delete: if isAdmin() && isValidId(serviceId);
+    }
+
+    // Gallery Collection: Public read, Admin write
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(imageId) && isValidGallery(request.resource.data);
+      allow delete: if isAdmin() && isValidId(imageId);
+    }
+
+    // Reviews Collection: Public read, Admin write
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(reviewId) && isValidReview(request.resource.data);
+      allow delete: if isAdmin() && isValidId(reviewId);
+    }
+
+    // Reservations Collection:
+    // Anyone can create a pending booking request with validated data
+    // Only admins can list, view, update, or delete reservations (protects customer phone numbers/names)
+    match /reservations/{reservationId} {
+      allow create: if isValidId(reservationId) &&
+                       isValidReservation(request.resource.data) &&
+                       request.resource.data.status == 'pending';
+      allow read, update, delete: if isAdmin() && isValidId(reservationId);
+    }
+
+    // Admins Collection:
+    match /admins/{adminId} {
+      allow read, write: if isAdmin() && isValidId(adminId);
+    }
+  }
+}

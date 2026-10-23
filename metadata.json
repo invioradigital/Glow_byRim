@@ -1,0 +1,6 @@
+{
+  "name": "Glow by Rim - Salon de Beauté & Coiffure Casablanca",
+  "description": "Salon de beauté et coiffure de prestige à Casablanca. Soins capillaires, coupe & brushing, manucure, pédicure et réservations WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

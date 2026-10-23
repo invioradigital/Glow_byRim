@@ -1,0 +1,140 @@
+{
+  "entities": {
+    "SalonSettings": {
+      "title": "SalonSettings",
+      "description": "General settings, contact details, branding and schedules for Glow by Rim",
+      "type": "object",
+      "properties": {
+        "salonName": { "type": "string", "maxLength": 100 },
+        "heroTagline": { "type": "string", "maxLength": 200 },
+        "heroDescription": { "type": "string", "maxLength": 600 },
+        "address": { "type": "string", "maxLength": 200 },
+        "city": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "instagram": { "type": "string", "maxLength": 100 },
+        "hoursMonSat": { "type": "string", "maxLength": 100 },
+        "hoursSun": { "type": "string", "maxLength": 100 },
+        "googleRating": { "type": "string", "maxLength": 10 },
+        "googleReviewsCount": { "type": "string", "maxLength": 10 },
+        "logoType": { "type": "string", "enum": ["image", "typography"], "maxLength": 20 },
+        "logoUrl": { "type": "string", "maxLength": 500 },
+        "announcement": { "type": "string", "maxLength": 300 },
+        "updatedAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["salonName", "phone", "whatsapp", "address"]
+    },
+    "ServiceCategory": {
+      "title": "ServiceCategory",
+      "description": "Service category grouping such as Coiffure, Manucure, Pédicure, Soins",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "slug": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 300 },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "slug"]
+    },
+    "SalonService": {
+      "title": "SalonService",
+      "description": "Individual salon service offered with editable pricing and description",
+      "type": "object",
+      "properties": {
+        "categoryId": { "type": "string", "maxLength": 50 },
+        "categoryName": { "type": "string", "maxLength": 100 },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 500 },
+        "price": { "type": "string", "maxLength": 100 },
+        "duration": { "type": "string", "maxLength": 50 },
+        "isPopular": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["categoryId", "title", "price"]
+    },
+    "GalleryItem": {
+      "title": "GalleryItem",
+      "description": "Salon photo gallery showcasing interiors, hair, nails, and treatments",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "maxLength": 50 },
+        "imageUrl": { "type": "string", "maxLength": 1000000 },
+        "description": { "type": "string", "maxLength": 300 },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "category", "imageUrl"]
+    },
+    "CustomerReview": {
+      "title": "CustomerReview",
+      "description": "Google and client review summaries for Glow by Rim",
+      "type": "object",
+      "properties": {
+        "authorName": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "text": { "type": "string", "maxLength": 1000 },
+        "date": { "type": "string", "maxLength": 50 },
+        "serviceTag": { "type": "string", "maxLength": 100 },
+        "isFeatured": { "type": "boolean" }
+      },
+      "required": ["authorName", "rating", "text"]
+    },
+    "BookingRequest": {
+      "title": "BookingRequest",
+      "description": "Customer booking inquiry submitted via the website",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 120 },
+        "phoneNumber": { "type": "string", "maxLength": 50 },
+        "service": { "type": "string", "maxLength": 150 },
+        "preferredDate": { "type": "string", "maxLength": 50 },
+        "preferredTime": { "type": "string", "maxLength": 50 },
+        "notes": { "type": "string", "maxLength": 600 },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"], "maxLength": 20 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["fullName", "phoneNumber", "service", "preferredDate", "preferredTime", "status"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized administrator document allowing dashboard access",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["admin", "superadmin"], "maxLength": 50 },
+        "addedAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/settings/{settingId}": {
+      "schema": "SalonSettings",
+      "description": "Salon general configuration, contact, and business hours"
+    },
+    "/categories/{categoryId}": {
+      "schema": "ServiceCategory",
+      "description": "Service categories"
+    },
+    "/services/{serviceId}": {
+      "schema": "SalonService",
+      "description": "List of salon services with prices"
+    },
+    "/gallery/{imageId}": {
+      "schema": "GalleryItem",
+      "description": "Portfolio and salon showcase photos"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "CustomerReview",
+      "description": "Verified client reviews and Google feedback"
+    },
+    "/reservations/{reservationId}": {
+      "schema": "BookingRequest",
+      "description": "Appointment requests submitted by clients"
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminUser",
+      "description": "Authorized administrative accounts"
+    }
+  }
+}
