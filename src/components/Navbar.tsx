@@ -6,7 +6,6 @@ import {
   X,
   Lock,
   ChevronRight,
-  Coffee,
 } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
 import { Logo } from './Logo';
@@ -50,35 +49,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin }) => {
 
   return (
     <>
-      {/* Top Warm Announcement Bar (Cozy, not black) */}
-      <div className="bg-[#EFE7DC] text-[#5C4D44] text-xs py-2 px-4 transition-all duration-300 border-b border-[#E3D8C8]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5 text-center sm:text-left">
-          <div className="flex items-center justify-center gap-2">
-            <Coffee className="w-3.5 h-3.5 text-[#B08247]" />
-            <span className="font-medium text-[#4A3E39]">
-              {settings.announcement || "Salon chaleureux à Casablanca — Thé & douceurs offerts"}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs text-[#6B5A50] font-light">
-            <div className="hidden md:flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#B08247]" />
-              <span>15 Rue Jalal Eddine Sayouti, Casablanca</span>
-            </div>
-
-            <a
-              href={`https://wa.me/${cleanWhatsApp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-[#8A5F26] hover:text-[#4A3E39] font-medium transition-colors"
-            >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>{settings.whatsapp}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main Sticky Navigation */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${

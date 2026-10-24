@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, MessageCircle, Calendar, Coffee, MapPin, ArrowRight, Heart, Sparkles } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
 
@@ -30,6 +30,16 @@ export const Hero: React.FC = () => {
   ];
 
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-swipe images every 3.8 seconds with pause on hover
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActivePhotoIdx((prev) => (prev + 1) % heroPhotos.length);
+    }, 3800);
+    return () => clearInterval(interval);
+  }, [isHovered, heroPhotos.length]);
 
   return (
     <section className="relative overflow-hidden bg-[#FAF7F2] pt-8 pb-14 md:pt-12 md:pb-20 border-b border-[#EFE8DD]">
@@ -134,38 +144,55 @@ export const Hero: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Visual Showcase with Cozy Framing */}
+          {/* Right Column: Visual Showcase with Auto-Swipe Frame */}
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               
-              {/* Main Photo Frame */}
-              <div className="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-white group aspect-4/5">
-                <img
-                  src={heroPhotos[activePhotoIdx].src}
-                  alt={heroPhotos[activePhotoIdx].tag}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-                />
+              {/* Main Photo Frame with Crossfade Transitions */}
+              <div
+                className="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-[#3A2F29] group aspect-4/5"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {heroPhotos.map((photo, idx) => (
+                  <div
+                    key={idx}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      activePhotoIdx === idx ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                    }`}
+                  >
+                    <img
+                      src={photo.src}
+                      alt={photo.tag}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
+                    />
 
-                {/* Overlay Caption */}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-5 text-white">
-                  <span className="text-[11px] uppercase tracking-wider text-[#F7D8AC] font-medium block mb-0.5">
-                    {heroPhotos[activePhotoIdx].tag}
-                  </span>
-                  <p className="text-xs sm:text-sm font-light text-white/90">
-                    {heroPhotos[activePhotoIdx].subtitle}
-                  </p>
-                </div>
-
-                {/* Rating Badge */}
-                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-md border border-[#E8E0D2] text-center">
-                  <div className="flex items-center justify-center text-amber-400 gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-current" />
-                    ))}
+                    {/* Overlay Caption */}
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent p-5 text-white">
+                      <span className="text-[11px] uppercase tracking-wider text-[#F7D8AC] font-medium block mb-0.5">
+                        {photo.tag}
+                      </span>
+                      <p className="text-xs sm:text-sm font-light text-white/90">
+                        {photo.subtitle}
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-[11px] font-bold text-[#4A3E39] mt-0.5 block">
-                    5.0 / 5 Google
-                  </span>
+                ))}
+
+                {/* Auto-swipe slide indicators */}
+                <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-black/30 backdrop-blur-xs px-2.5 py-1.5 rounded-full">
+                  {heroPhotos.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActivePhotoIdx(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        activePhotoIdx === idx
+                          ? 'w-6 bg-white shadow-xs'
+                          : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      }`}
+                      aria-label={`Photo ${idx + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -177,7 +204,7 @@ export const Hero: React.FC = () => {
                     onClick={() => setActivePhotoIdx(idx)}
                     className={`relative rounded-xl overflow-hidden aspect-square border-2 transition-all ${
                       activePhotoIdx === idx
-                        ? 'border-[#C4975C] shadow-sm'
+                        ? 'border-[#C4975C] shadow-sm ring-2 ring-[#C4975C]/30'
                         : 'border-transparent opacity-75 hover:opacity-100'
                     }`}
                   >
