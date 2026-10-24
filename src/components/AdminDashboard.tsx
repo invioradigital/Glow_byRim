@@ -35,6 +35,7 @@ import {
 import { useSalon } from '../context/SalonContext';
 import { SalonService, GalleryItem, CustomerReview, BookingRequest } from '../types/salon';
 import { getSalonOpenStatus } from '../utils/hours';
+import { getAssetUrl } from '../utils/assets';
 
 interface AdminDashboardProps {
   isOpen: boolean;
@@ -1071,7 +1072,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose 
                     >
                       <div className="aspect-square relative overflow-hidden bg-[#FAF7F2]">
                         <img
-                          src={photo.imageUrl}
+                          src={getAssetUrl(photo.imageUrl)}
                           alt={photo.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />

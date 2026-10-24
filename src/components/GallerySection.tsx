@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
+import { getAssetUrl } from '../utils/assets';
 
 export const GallerySection: React.FC = () => {
   const { gallery } = useSalon();
@@ -83,7 +84,7 @@ export const GallerySection: React.FC = () => {
               className="group relative cursor-pointer overflow-hidden rounded-2xl bg-[#FAF7F2] border border-[#EFE8DD] shadow-xs aspect-4/3 transition-all duration-300 hover:shadow-md"
             >
               <img
-                src={item.imageUrl}
+                src={getAssetUrl(item.imageUrl)}
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
                 loading="lazy"
@@ -160,7 +161,7 @@ export const GallerySection: React.FC = () => {
           >
             <div className="relative max-h-[75vh] flex items-center justify-center bg-black/30">
               <img
-                src={filteredItems[lightboxIndex].imageUrl}
+                src={getAssetUrl(filteredItems[lightboxIndex].imageUrl)}
                 alt={filteredItems[lightboxIndex].title}
                 className="max-h-[75vh] w-auto max-w-full object-contain"
               />

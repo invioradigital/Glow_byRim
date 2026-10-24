@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MessageCircle, Calendar, Coffee, MapPin, ArrowRight, Heart, Sparkles } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
+import { getAssetUrl } from '../utils/assets';
 
 export const Hero: React.FC = () => {
   const { settings } = useSalon();
@@ -8,22 +9,22 @@ export const Hero: React.FC = () => {
 
   const heroPhotos = [
     {
-      src: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01__1__5b110762.jpeg",
+      src: getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01__1__5b110762.jpeg"),
       tag: "Espace Coiffure & Salon",
       subtitle: "Fauteuils confortables, miroirs chaleureux et salon velours bleu"
     },
     {
-      src: "/assets/aistudio/Fa_ade__l_gante_du_salon_GLOW_by_Rim_c0f1903e.png",
+      src: getAssetUrl("/assets/aistudio/Fa_ade__l_gante_du_salon_GLOW_by_Rim_c0f1903e.png"),
       tag: "Façade du Salon",
       subtitle: "15 Rue Jalal Eddine Sayouti, Casablanca"
     },
     {
-      src: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00_a87a3188.jpeg",
+      src: getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00_a87a3188.jpeg"),
       tag: "Hospitalité & Ongles",
       subtitle: "Thé à la menthe, dattes fraîches et espace manucure lumineux"
     },
     {
-      src: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg",
+      src: getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg"),
       tag: "Espace Pédicure Spa",
       subtitle: "Fauteuils spa massants pour un moment de pure détente"
     }

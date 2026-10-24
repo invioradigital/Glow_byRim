@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSalon } from '../context/SalonContext';
+import { getAssetUrl } from '../utils/assets';
 
 interface LogoProps {
   variant?: 'light' | 'dark' | 'auto';
@@ -34,7 +35,7 @@ export const Logo: React.FC<LogoProps> = ({
     return (
       <div className={`flex items-center gap-2 ${className}`}>
         <img
-          src={settings.logoUrl}
+          src={getAssetUrl(settings.logoUrl)}
           alt={settings.salonName}
           className={`${imgHeightClasses[size]} w-auto object-contain transition-transform duration-300 hover:scale-103 filter drop-shadow-xs`}
           onError={(e) => {

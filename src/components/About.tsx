@@ -1,6 +1,7 @@
 import React from 'react';
 import { Coffee, Scissors, Sparkles, Heart, CheckCircle2 } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
+import { getAssetUrl } from '../utils/assets';
 
 export const About: React.FC = () => {
   const { settings } = useSalon();
@@ -56,14 +57,14 @@ export const About: React.FC = () => {
             <div className="space-y-4">
               <div className="rounded-2xl overflow-hidden shadow-xs border border-[#EFE8DD]">
                 <img
-                  src="/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00_a87a3188.jpeg"
+                  src={getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00_a87a3188.jpeg")}
                   alt="Plateau thé marocain et dattes au salon"
                   className="w-full h-48 sm:h-56 object-cover hover:scale-103 transition-transform duration-500"
                 />
               </div>
               <div className="rounded-2xl overflow-hidden shadow-xs border border-[#EFE8DD]">
                 <img
-                  src="/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00__2__cc2e07ac.jpeg"
+                  src={getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.00__2__cc2e07ac.jpeg")}
                   alt="Cabine de soin esthétique reposante"
                   className="w-full h-40 sm:h-48 object-cover hover:scale-103 transition-transform duration-500"
                 />
@@ -73,7 +74,7 @@ export const About: React.FC = () => {
             <div className="space-y-4 pt-6 sm:pt-10">
               <div className="rounded-2xl overflow-hidden shadow-xs border border-[#EFE8DD]">
                 <img
-                  src="/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg"
+                  src={getAssetUrl("/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg")}
                   alt="Fauteuils spa pédicure confortables"
                   className="w-full h-52 sm:h-64 object-cover hover:scale-103 transition-transform duration-500"
                 />

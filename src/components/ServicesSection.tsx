@@ -14,6 +14,7 @@ import {
 import { useSalon } from '../context/SalonContext';
 import { SalonService } from '../types/salon';
 import { OFFICIAL_TARIFS_IMAGES } from '../data/defaultData';
+import { getAssetUrl } from '../utils/assets';
 
 interface ServicesSectionProps {
   onSelectServiceForBooking: (serviceName: string) => void;
@@ -354,7 +355,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 
             <div className="rounded-xl overflow-hidden border border-[#E0D5C3] shadow-sm max-w-xl mx-auto bg-white">
               <img
-                src={OFFICIAL_TARIFS_IMAGES[activeFlyerPage].imageUrl}
+                src={getAssetUrl(OFFICIAL_TARIFS_IMAGES[activeFlyerPage].imageUrl)}
                 alt={OFFICIAL_TARIFS_IMAGES[activeFlyerPage].title}
                 className="w-full h-auto object-contain max-h-[65vh]"
               />
