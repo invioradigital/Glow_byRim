@@ -9,6 +9,7 @@ import {
   AlertCircle,
   Send,
   Coffee,
+  Sparkles,
 } from 'lucide-react';
 import { useSalon } from '../context/SalonContext';
 
@@ -32,11 +33,24 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
   const [successResult, setSuccessResult] = useState<{ id: string; whatsappUrl: string } | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Sync when preselectedService is updated from a prestation click
   useEffect(() => {
     if (preselectedService) {
-      setService(preselectedService);
+      const trimmed = preselectedService.trim().toLowerCase();
+      // Look for a matching service by title or prefix
+      const matched = services.find(
+        (s) =>
+          s.title.toLowerCase() === trimmed ||
+          trimmed.startsWith(s.title.toLowerCase()) ||
+          s.title.toLowerCase().startsWith(trimmed)
+      );
+      if (matched) {
+        setService(matched.title);
+      } else {
+        setService(preselectedService.trim());
+      }
     }
-  }, [preselectedService]);
+  }, [preselectedService, services]);
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -91,7 +105,7 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
   };
 
   return (
-    <section id="reservation" className="py-16 md:py-20 bg-white relative overflow-hidden">
+    <section id="reservation" className="py-16 md:py-20 bg-white relative overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
@@ -159,7 +173,7 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
           </div>
 
           {/* Option 2: Booking Form Card */}
-          <div className="lg:col-span-7 bg-[#FAF7F2] p-7 rounded-3xl border border-[#EFE8DD] shadow-xs relative">
+          <div id="reservation-form" className="lg:col-span-7 bg-[#FAF7F2] p-7 rounded-3xl border border-[#EFE8DD] shadow-xs relative scroll-mt-24">
             
             <div className="mb-5 space-y-1.5">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#B08247] block">
@@ -210,6 +224,19 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 
+                {/* Pre-selected feedback banner when user clicks 'Réserver' on a service */}
+                {service && (
+                  <div className="p-3 bg-[#F4EDE2] border border-[#DFCBB5] rounded-xl flex items-center justify-between text-xs text-[#5C4223] animate-in fade-in slide-in-from-top-1 duration-200">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#C4975C] shrink-0" />
+                      <span>
+                        Prestation sélectionnée : <strong className="font-semibold text-[#3A2F29]">{service}</strong>
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-[#8C7A70] hidden sm:inline">Prêt à valider</span>
+                  </div>
+                )}
+
                 {errorMsg && (
                   <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
@@ -257,14 +284,23 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
 
                 {/* Service Selection */}
                 <div>
-                  <label className="block text-xs font-medium text-[#3A2F29] mb-1">
-                    Prestation Souhaitée <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label htmlFor="reservation-service-select" className="block text-xs font-medium text-[#3A2F29]">
+                      Prestation Souhaitée <span className="text-red-500">*</span>
+                    </label>
+                    {service && (
+                      <span className="text-[10px] text-[#8A5F26] bg-[#EFE8DD] px-2 py-0.5 rounded-full font-medium inline-flex items-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5 text-[#C4975C]" />
+                        Soin pré-sélectionné
+                      </span>
+                    )}
+                  </div>
                   <select
+                    id="reservation-service-select"
                     required
                     value={service}
                     onChange={(e) => setService(e.target.value)}
-                    className="w-full bg-white border border-[#E8E0D2] rounded-xl px-3.5 py-2.5 text-xs text-[#3A2F29] focus:outline-none focus:border-[#C4975C] transition-colors"
+                    className="w-full bg-white border border-[#E8E0D2] rounded-xl px-3.5 py-2.5 text-xs text-[#3A2F29] focus:outline-none focus:border-[#C4975C] focus:ring-2 focus:ring-[#C4975C]/30 transition-all font-medium"
                   >
                     <option value="">Choisissez votre soin...</option>
                     {services.map((s) => (
@@ -272,6 +308,9 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
                         {s.title} ({s.categoryName}) — {s.price}
                       </option>
                     ))}
+                    {service && !services.some((s) => s.title === service) && (
+                      <option value={service}>{service}</option>
+                    )}
                     <option value="Autre soin / Conseil sur place">
                       Autre soin / Conseil sur place
                     </option>

@@ -50,11 +50,30 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   }, [services, activeTab, searchQuery]);
 
   const handleBookClick = (service: SalonService) => {
-    onSelectServiceForBooking(`${service.title} (${service.price})`);
-    const reservationElement = document.getElementById('reservation');
-    if (reservationElement) {
-      reservationElement.scrollIntoView({ behavior: 'smooth' });
+    onSelectServiceForBooking(service.title);
+    
+    // Smooth scroll directly to the booking form card
+    const targetElement =
+      document.getElementById('reservation-form') ||
+      document.getElementById('reservation');
+
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // Briefly pulse-highlight and focus the service select input so the user sees it immediately
+    setTimeout(() => {
+      const selectElement = document.getElementById(
+        'reservation-service-select'
+      ) as HTMLSelectElement | null;
+      if (selectElement) {
+        selectElement.focus();
+        selectElement.classList.add('ring-4', 'ring-[#C4975C]/40', 'border-[#C4975C]', 'bg-[#FFFBF5]');
+        setTimeout(() => {
+          selectElement.classList.remove('ring-4', 'ring-[#C4975C]/40', 'border-[#C4975C]', 'bg-[#FFFBF5]');
+        }, 2000);
+      }
+    }, 400);
   };
 
   // Helper icons and clean short names for buttons
