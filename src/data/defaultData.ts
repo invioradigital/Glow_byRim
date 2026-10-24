@@ -24,11 +24,11 @@ export const DEFAULT_SETTINGS: SalonSettings = {
 export const OFFICIAL_TARIFS_IMAGES = [
   {
     title: "Carte Officielle : Manucure / Pédicure & Cheveux",
-    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_17.06.53_d460df76.jpeg",
+    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg",
   },
   {
     title: "Carte Officielle : Épilation, Massages, Cils, Sourcils & Lèvres",
-    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_17.06.53__1__755c4a62.jpeg",
+    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01__1__5b110762.jpeg",
   },
 ];
 
@@ -506,7 +506,7 @@ export const DEFAULT_GALLERY: GalleryItem[] = [
     title: "Carte Officielle : Manucure / Pédicure & Cheveux",
     category: "salon",
     categoryLabel: "Tarifs Officiels",
-    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_17.06.53_d460df76.jpeg",
+    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01_2bb55787.jpeg",
     description: "Carte officielle des tarifs du salon Glow by Rim — Casablanca",
     order: 1,
   },
@@ -515,7 +515,7 @@ export const DEFAULT_GALLERY: GalleryItem[] = [
     title: "Carte Officielle : Épilation, Massages & Regard",
     category: "soins",
     categoryLabel: "Tarifs Officiels",
-    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_17.06.53__1__755c4a62.jpeg",
+    imageUrl: "/assets/aistudio/WhatsApp_Image_2026-10-23_at_16.31.01__1__5b110762.jpeg",
     description: "Tarifs officiels épilation, massages relaxants, cils, sourcils et lèvres",
     order: 2,
   },

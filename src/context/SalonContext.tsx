@@ -26,6 +26,7 @@ import {
   DEFAULT_GALLERY,
   DEFAULT_REVIEWS,
 } from '../data/defaultData';
+import { getAssetUrl } from '../utils/assets';
 
 const BOOTSTRAP_ADMIN_EMAIL = "inviora.digital@gmail.com";
 
@@ -106,9 +107,20 @@ export const SalonProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFirebaseActive, setIsFirebaseActive] = useState<boolean>(false);
 
-  // Sync cache changes to localStorage
+  // Sync cache changes to localStorage and update browser tab favicon
   useEffect(() => {
     localStorage.setItem('gbr_v3_settings', JSON.stringify(settings));
+    if (settings.logoUrl) {
+      try {
+        const resolvedLogo = getAssetUrl(settings.logoUrl);
+        const iconLinks = document.querySelectorAll("link[rel*='icon']");
+        iconLinks.forEach((link) => {
+          (link as HTMLLinkElement).href = resolvedLogo;
+        });
+      } catch (e) {
+        console.warn("Could not sync favicon dynamically:", e);
+      }
+    }
   }, [settings]);
 
   useEffect(() => {
